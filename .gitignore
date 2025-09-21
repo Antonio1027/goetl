@@ -1,0 +1,98 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.cov
+
+# Go workspace file
+go.work
+
+# Dependency directories (vendor/)
+vendor/
+
+# Go build cache
+*.a
+
+# IDE/editor files
+.vscode/
+.idea/
+.github/
+*.swp
+*.swo
+*.bak
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# Test results
+coverage.out
+
+# Node/npm (if any frontend or scripts)
+node_modules/
+
+# Python (if any scripts)
+__pycache__/
+*.pyc
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# System files
+Thumbs.db
+
+# Database files
+*.db
+*.sqlite
+
+# Ignore local binaries
+/bin/
+/build/
+/dist/
+
+# Ignore generated files
+*.gen.go
+
+# Ignore secrets
+secrets.*
+
+# Ignore backup files
+*.old
+*.orig
+
+# Ignore by convention
+/testdata/
+
+# Ignore coverage and profiling
+*.prof
+*.coverprofile
+*.profile
+
+# Ignore GoLand project files
+*.iml
+
+# Ignore Mac system files
+.AppleDouble
+.LSOverride
+
+# Ignore test containers
+/test/
+
+# Ignore air live reload config
+.air.toml

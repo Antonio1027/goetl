@@ -1,0 +1,212 @@
+openapi: 3.0.3
+info:
+  title: GoETL API
+  version: 1.0.0
+  description: |
+    REST API for Ads & CRM ETL backend. Provides endpoints to run ETL and fetch metrics by channel or campaign.
+servers:
+  - url: http://localhost:8080
+paths:
+  /ingest/run:
+    post:
+      summary: Run ETL process
+      description: Trigger the ETL process for Ads and CRM data since a given date.
+      parameters:
+        - in: query
+          name: since
+          schema:
+            type: string
+            format: date
+          required: true
+          description: Start date (YYYY-MM-DD) for ETL process
+      responses:
+        '200':
+          description: ETL process completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ETLResult'
+        '400':
+          description: Missing required query parameter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: ETL process failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /metrics/channel:
+    get:
+      summary: Get metrics by channel
+      description: Fetch ETL metrics filtered by channel and date range.
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          required: false
+          description: Start date (YYYY-MM-DD)
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          required: false
+          description: End date (YYYY-MM-DD)
+        - in: query
+          name: channel
+          schema:
+            type: string
+          required: false
+          description: Channel name
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          required: false
+          description: Max results to return
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          required: false
+          description: Results offset
+      responses:
+        '200':
+          description: Metrics by channel
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ETLResult'
+  /metrics/campaign:
+    get:
+      summary: Get metrics by campaign
+      description: Fetch ETL metrics filtered by campaign and date range.
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          required: false
+          description: Start date (YYYY-MM-DD)
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          required: false
+          description: End date (YYYY-MM-DD)
+        - in: query
+          name: utm_campaign
+          schema:
+            type: string
+          required: false
+          description: UTM campaign name
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          required: false
+          description: Max results to return
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          required: false
+          description: Results offset
+      responses:
+        '200':
+          description: Metrics by campaign
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ETLResult'
+components:
+  schemas:
+    ETLResult:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        channel:
+          type: string
+        campaign_id:
+          type: string
+        utm_campaign:
+          type: string
+        clicks:
+          type: integer
+        impressions:
+          type: integer
+        cost:
+          type: number
+          format: float
+        leads:
+          type: integer
+        opportunities:
+          type: integer
+        closed_won:
+          type: integer
+        revenue:
+          type: number
+          format: float
+        cpc:
+          type: number
+          format: float
+        cpa:
+          type: number
+          format: float
+        cvr_lead_to_opp:
+          type: number
+          format: float
+        cvr_opp_to_won:
+          type: number
+          format: float
+        roas:
+          type: number
+          format: float

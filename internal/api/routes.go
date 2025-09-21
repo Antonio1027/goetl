@@ -57,11 +57,6 @@ func metricsByChannelHandler(c *gin.Context) {
 // ingestRunHandler handles POST /ingest/run?since=YYYY-MM-DD
 func ingestRunHandler(c *gin.Context) {
 	since := c.Query("since")
-	if since == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "missing 'since' query parameter"})
-		return
-	}
-
 	// Retry logic with backoff (simple, 3 attempts)
 	var lastErr error
 	var results []models.ETLResult

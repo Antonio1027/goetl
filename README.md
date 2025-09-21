@@ -29,7 +29,7 @@ GoETL is a modular backend service written in Go for extracting, transforming, a
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/your-org/goetl.git
+git clone git@github.com:Antonio1027/goetl.git
 cd goetl
 ```
 

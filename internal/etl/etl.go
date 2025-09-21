@@ -17,7 +17,6 @@ func RunETL(since string) ([]models.ETLResult, error) {
 	       return nil, err
        }
        results, err := Transform(ads, crm, since)
-	   log.Println("ETL results to load length:", len(results))
 
        if err != nil {
             return nil, err
@@ -51,9 +50,6 @@ func Extract() ([]models.AdPerformance, []models.Opportunity, error) {
 func Transform(ads []models.AdPerformance, opportunities []models.Opportunity, since string) ([]models.ETLResult, error) {
 	opportunities = TransformOpportunitiesData(opportunities)
 	ads = TransformPerformanceData(ads)
-
-	log.Println("Fetched Ads performance data length:", len(ads))
-	log.Println("Fetched CRM opportunities data length:", len(opportunities))
 
 	// Filter by 'since' date if provided
 	adsFiltered := make([]models.AdPerformance, 0)
@@ -89,7 +85,6 @@ func Transform(ads []models.AdPerformance, opportunities []models.Opportunity, s
 		var leads, opportunities, closedWon int
 		var revenue float64
 		for _, opp := range opportunitiesMap {
-			log.Println("Comparing Ad:", ad.Date, ad.UTMCampaign, ad.UTMSource, ad.UTMMedium, "with Opp:", opp.CreatedAt, opp.UTMCampaign, opp.UTMSource, opp.UTMMedium)
 			if ad.Date == opp.CreatedAt && ad.UTMCampaign == opp.UTMCampaign && ad.UTMSource == opp.UTMSource && ad.UTMMedium == opp.UTMMedium {
 				opportunities++
 				if opp.Stage == "lead" {
@@ -145,7 +140,6 @@ func Transform(ads []models.AdPerformance, opportunities []models.Opportunity, s
 		results = append(results, res)
 	}
 
-	log.Println("Transformed ETL results length:", len(results))
 	return results, nil
 }
 
